@@ -202,7 +202,7 @@ def main():
 
 # Create the main window
 root = tk.Tk()
-root.title("Video Grid Generator")
+root.title("IQuilt! - Video to Image-Grid Generator")
 
 # Variables for folder paths
 folder_path_var = tk.StringVar()
@@ -220,19 +220,19 @@ style.configure('TLabel', foreground='#FFFFFF')
 style.map('TButton', background=[('active', '#0066cc')])
 
 # UI elements
-tk.Label(root, text="Select Video Folder:").grid(row=0, column=0, pady=5, padx=5, sticky='w')
+tk.Label(root, text="Video Folder:").grid(row=0, column=0, pady=5, padx=5, sticky='w')
 tk.Entry(root, textvariable=folder_path_var, width=50).grid(row=0, column=1, pady=5, padx=5)
 ttk.Button(root, text="Browse", command=select_folder).grid(row=0, column=2, pady=5, padx=5)
 
-tk.Label(root, text="Select Temp Folder:").grid(row=1, column=0, pady=5, padx=5, sticky='w')
+tk.Label(root, text="Temp Folder:").grid(row=1, column=0, pady=5, padx=5, sticky='w')
 tk.Entry(root, textvariable=temp_folder_path_var, width=50).grid(row=1, column=1, pady=5, padx=5)
 ttk.Button(root, text="Browse", command=select_temp_folder).grid(row=1, column=2, pady=5, padx=5)
 
-tk.Label(root, text="Select Output Folder:").grid(row=2, column=0, pady=5, padx=5, sticky='w')
+tk.Label(root, text="Output Folder:").grid(row=2, column=0, pady=5, padx=5, sticky='w')
 tk.Entry(root, textvariable=output_folder_path_var, width=50).grid(row=2, column=1, pady=5, padx=5)
 ttk.Button(root, text="Browse", command=select_output_folder).grid(row=2, column=2, pady=5, padx=5)
 
-ttk.Button(root, text="Generate Video Grid", command=main).grid(row=3, column=1, pady=10)
+ttk.Button(root, text="Generate Image Grid", command=main).grid(row=3, column=1, pady=10)
 
 # Run the Tkinter main loop
 root.mainloop()
