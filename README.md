@@ -1,1 +1,7 @@
-This is a initial release, complete tutorial, license information, and full feature explanation are coming soon.
+# Introduction
+IQuilt! is a video to image-grid converter. That's it, no need for further explanation, I think.
+
+You browse or copy-paste a folder path into the text field and click `Generate` and it's done.
+
+# Use case
+Similar to other programs, but simplier and open-source!

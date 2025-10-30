@@ -31,7 +31,7 @@ def take_screenshots(video_path, num_screenshots=36):
 
         for i in range(num_screenshots):
             timestamp = i * interval
-            output_file = os.path.join(temp_folder_path_var.get(), f'output_{timestamp:.2f}.jpg')
+            output_file = os.path.join(folder_path_var.get(), f'output_{timestamp:.2f}.jpg')
             cmd = [
                 'ffmpeg',
                 '-ss', str(timestamp),
@@ -115,8 +115,8 @@ def create_image_grid(video_name, folder_path, num_screenshots=36, grid_size=(3,
     minutes, seconds = divmod(remainder, 60)
     formatted_duration = f"{int(hours):02d}:{int(minutes):02d}:{seconds:.2f}"
 
-    images = [os.path.join(temp_folder_path_var.get(), f'output_{i * (duration / num_screenshots):.2f}.jpg') for i in range(num_screenshots)]
-    grid_output_file = os.path.join(output_folder_path_var.get(), f'{video_name.split(".")[0]}.jpg')
+    images = [os.path.join(folder_path_var.get(), f'output_{i * (duration / num_screenshots):.2f}.jpg') for i in range(num_screenshots)]
+    grid_output_file = os.path.join(folder_path_var.get(), f'{video_name.split(".")[0]}.jpg')
 
     title_text = (
         "\n\n\n\n\n\n\n\nVideo Information\n\n"
@@ -156,14 +156,6 @@ def select_folder():
     folder_selected = filedialog.askdirectory()
     folder_path_var.set(folder_selected)
 
-def select_temp_folder():
-    folder_selected = filedialog.askdirectory()
-    temp_folder_path_var.set(folder_selected)
-
-def select_output_folder():
-    folder_selected = filedialog.askdirectory()
-    output_folder_path_var.set(folder_selected)
-
 def update_progress_bar(overall_progress_var, video_progress_var, total_videos, current_video_index, video_progress):
     overall_progress = (current_video_index / total_videos) * 100
     overall_progress_var.set(overall_progress)
@@ -171,15 +163,13 @@ def update_progress_bar(overall_progress_var, video_progress_var, total_videos, 
 
 def main():
     folder_path = folder_path_var.get()
-    temp_folder_path = temp_folder_path_var.get()
-    output_folder_path = output_folder_path_var.get()
 
     video_files = get_video_files(folder_path)
     total_videos = len(video_files)
 
     overall_progress_var = tk.DoubleVar()
     overall_progress_bar = ttk.Progressbar(root, variable=overall_progress_var, length=300, mode='determinate')
-    overall_progress_bar.grid(row=4, column=1, pady=10)
+    overall_progress_bar.grid(row=3, column=1, pady=10)
 
     def process_video(index):
         if index < total_videos:
@@ -200,39 +190,26 @@ def main():
 
     process_video(0)
 
-# Create the main window
+# --- UI Setup ---
 root = tk.Tk()
 root.title("IQuilt! - Video to Image-Grid Generator")
 
-# Variables for folder paths
+# Variables
 folder_path_var = tk.StringVar()
-temp_folder_path_var = tk.StringVar()
-output_folder_path_var = tk.StringVar()
 
-# Set dark mode theme
+# Theme
 root.tk_setPalette(background='#2E2E2E', foreground='#FFFFFF', activeBackground='#0066cc', activeForeground='#FFFFFF')
-
-# Style for ttk widgets
 style = ttk.Style()
 style.configure('TButton', padding=(5, 5, 5, 5), width=20, background='#2E2E2E', foreground='#FFFFFF', activeForeground='#4C8CEA')
 style.configure('TEntry', fieldbackground='#404040', foreground='#FFFFFF')
 style.configure('TLabel', foreground='#FFFFFF')
 style.map('TButton', background=[('active', '#0066cc')])
 
-# UI elements
+# UI
 tk.Label(root, text="Video Folder:").grid(row=0, column=0, pady=5, padx=5, sticky='w')
 tk.Entry(root, textvariable=folder_path_var, width=50).grid(row=0, column=1, pady=5, padx=5)
 ttk.Button(root, text="Browse", command=select_folder).grid(row=0, column=2, pady=5, padx=5)
 
-tk.Label(root, text="Temp Folder:").grid(row=1, column=0, pady=5, padx=5, sticky='w')
-tk.Entry(root, textvariable=temp_folder_path_var, width=50).grid(row=1, column=1, pady=5, padx=5)
-ttk.Button(root, text="Browse", command=select_temp_folder).grid(row=1, column=2, pady=5, padx=5)
+ttk.Button(root, text="Generate", command=main).grid(row=4, column=1, pady=10)
 
-tk.Label(root, text="Output Folder:").grid(row=2, column=0, pady=5, padx=5, sticky='w')
-tk.Entry(root, textvariable=output_folder_path_var, width=50).grid(row=2, column=1, pady=5, padx=5)
-ttk.Button(root, text="Browse", command=select_output_folder).grid(row=2, column=2, pady=5, padx=5)
-
-ttk.Button(root, text="Generate Image Grid", command=main).grid(row=3, column=1, pady=10)
-
-# Run the Tkinter main loop
 root.mainloop()
